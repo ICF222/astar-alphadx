@@ -1,3 +1,4 @@
+from Point import Point
 
 class Map():
 
@@ -35,17 +36,23 @@ class Map():
 
 
     def IsValidSolution(self, posible_path_):
-                    
-        for path in posible_path_:
-            #Actualizar el mapa y preguntar si el camino es posible o no
-            self.UpdateMap(path)
-            pass        
-        
-        is_valid = False
 
+        is_valid = True
+        for index, path in enumerate(posible_path_):
+            if(self.mapOriginal[path.y -1][path.x -1] == 0):
+                is_valid = False
+                self.UpdateMap(posible_path_[index - 1])
+                break
         return is_valid
 
 
-    def UpdateMap(self, path_):
-        #Actualizar el mapa con el rango de visión
-        pass
+    def UpdateMap(self, punto_de_vista):
+        x0 = max(1, punto_de_vista.x - self.vision)
+        x1 = min(self.width, punto_de_vista.x + self.vision +1)
+        y0 = max(1, punto_de_vista.y - self.vision)
+        y1 = min(self.height, punto_de_vista.y + self.vision +1)
+        for y in range(y0, y1):
+            for x in range(x0, x1):
+                self.mapVision[y-1][x-1] = self.mapOriginal[y-1][x-1]
+                #print(self.mapOriginal[y-1][x-1], end = "")
+            #print()

@@ -31,19 +31,24 @@ if __name__ == "__main__":
     my_map.Read(args.map)
 
     
-    start_pos = Point(start_pos_x, start_pos_y)
-    goal_pos = Point(goal_pos_x, goal_pos_y)
+    start_pos = Point(int(start_pos_x), int(start_pos_y))
+    goal_pos = Point(int(goal_pos_x), int(goal_pos_y))
 
-    is_valid_soluction = False
+    is_valid_solution = False
 
-    while not(is_valid_soluction):
+    count = 0
 
-        solver = Astart(start_pos, goal_pos, my_map.mapVision)
+    while not(is_valid_solution):
+
+        solver = Astart(start_pos, goal_pos, my_map.mapVision, my_map.height, my_map.width)
 
         posible_path = solver.FindPath()
 
-        is_valid_soluction = my_map.IsValidSolution(posible_path)
-        break #Debe borrar este break, esta para el codigo de ejemplo
+        is_valid_solution = my_map.IsValidSolution(posible_path)
+
+        count += 1
+        print("Ocasión: {}\tNodos Abierto: {}\tNodos Cerrados: {}\tLargo Path:{}".format(count, len(solver.lista_nodos.nodos_abiertos), len(solver.lista_nodos.nodos_cerrados), len(posible_path)))
+
 
     print(f'El costo de la solución es {solver.cost}')
 
@@ -53,6 +58,7 @@ if __name__ == "__main__":
     
     #Ejemplo salida
     """
+    1
     10 10
     10 11
     10 12
